@@ -1,0 +1,23 @@
+<h1>Songs</h1>
+
+<ul *ngIf="songs">
+    <li *ngFor="let song of songs">
+        <p class="bold">{{ song.title }}</p>
+        <p class="bold">{{ song.artist }}</p>
+        <p class="bold">{{ song.album }}</p>
+        <img class="image" src={{song.image}}>
+        <br>
+        <p class="upper">Released In: {{ song.year }}</p>
+        <br>
+        <p class="">{{ song.comment }}</p>
+        <br>
+        <p class="upper">Genre: {{ song.genre }}</p>
+        <br>
+        <p>Reviews: {{ song.genre }} 
+            <button>View All</button>
+        </p>
+    </li>
+</ul>
+<div style="margin-top:20px;">
+  <button type="button" class="button btn-danger" (click)='deleteSongs()'>Delete All</button>
+</div>

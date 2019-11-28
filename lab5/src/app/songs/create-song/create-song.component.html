@@ -1,0 +1,47 @@
+<h3>Create Song</h3>
+<div [hidden]="submitted" style="width: 100%;">
+  <form #songForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="play-container">
+        <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" required [(ngModel)]="song.title" name="title">
+        </div>
+    
+        <div class="form-group">
+            <label for="artist">Artist</label>
+            <input type="text" class="form-control" id="artist" required [(ngModel)]="song.artist" name="artist">
+        </div>
+
+        <div class="form-group">
+            <label for="album">Album</label>
+            <input type="text" class="form-control" id="album" required [(ngModel)]="song.album" name="album">
+        </div>
+
+        <div class="form-group">
+            <label for="image">Image</label>
+            <input type="url" class="form-control" id="image" required [(ngModel)]="song.image" name="image">
+        </div>
+
+        <div class="form-group">
+            <label for="year">Year</label>
+            <input type="number" class="form-control" id="year" required [(ngModel)]="song.year" name="year">
+        </div>
+
+        <div class="form-group">
+            <label for="comment">Comment</label>
+            <input type="text" class="form-control" id="comment" required [(ngModel)]="song.comment" name="comment">
+        </div>
+        
+        <div class="form-group">
+            <label for="genre">Genre</label>
+            <input type="text" class="form-control" id="genre" required [(ngModel)]="song.genre" name="genre">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+</div>
+ 
+<div [hidden]="!submitted">
+  <h4>You submitted successfully!</h4>
+  <button class="btn btn-success" (click)="newSong()">Add</button>
+</div>

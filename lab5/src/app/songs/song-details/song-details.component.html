@@ -1,0 +1,31 @@
+<p>works</p>
+<div *ngIf="song">
+    <div>
+      <label>Title: </label> {{song.name}}
+    </div>
+    <div>
+      <label>Artist: </label> {{song.age}}
+    </div>
+    <div>
+      <label>Album: </label> {{song.active}}
+    </div>
+    <div>
+      <label>Year: </label> {{song.active}}
+    </div>
+    <div>
+      <label>Comment: </label> {{song.active}}
+    </div>
+    <div>
+      <label>Genre: </label> {{song.active}}
+    </div>
+    <div>
+        <label>Reviews: </label>
+        <label>View All</label>
+    </div>
+    
+   
+    <span class="button is-small btn-primary">Review</span>   
+    <span class="button is-small btn-danger" (click)='deleteSong()'>Delete</span>
+   
+    <hr />
+</div>
