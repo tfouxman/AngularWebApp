@@ -1,0 +1,7 @@
+.login li a {
+    padding: 1em;
+
+    &:hover {
+        background: darken(rgb(60, 1, 109), 10%);
+    }
+}
