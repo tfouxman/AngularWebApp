@@ -1,0 +1,28 @@
+<h2 mat-dialog-title> Add review for <b>{{ data.title }} </b> by <b>{{ data.artist }}</b></h2>
+
+<mat-dialog-content>
+
+    <form #reviewForm="ngForm" (ngSubmit)="submitReview()">
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <label for="title">Review Title</label>
+                <input ngModel #title="ngModel" name="title" required [(ngModel)]="review.title" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <label for="body">Body</label>
+                <input ngModel #body="ngModel" name="body" type="text" required [(ngModel)]="review.body" style="height: 150px" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <ngb-rating [(rate)]="currentRate" class="col-md-4"></ngb-rating>
+        </div>
+        <button class="mat-raised-button btn btn-success ml-auto" type="submit">Submit Review</button>
+    </form>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button btn btn-danger" (click)="close()">Close</button>
+    
+</mat-dialog-actions>

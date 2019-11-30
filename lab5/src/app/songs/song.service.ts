@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore'
 import { Song } from './song';
+import { Review } from './review';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class SongService {
   private dbPath = '/songs';
 
   songsRef: AngularFirestoreCollection<Song> = null;
+  reviewsRef: AngularFirestoreCollection<Review> = null;
 
   constructor(private db: AngularFirestore) { 
     this.songsRef = db.collection(this.dbPath);
@@ -18,7 +20,24 @@ export class SongService {
   createSong(song: Song): void {
     this.songsRef.add({...song});
   }
+
+  addReview(song: Song, review: Review) {
+    let path = this.dbPath + '/' + song.key + '/reviews';
+    this.reviewsRef = this.db.collection(path);
+    this.reviewsRef.add({...review});
+    let songUpdate = {
+      reviews: song.reviews++,
+      total: song.total + review.rating
+    };
+    this.updateSong(song.key, songUpdate);
+  }
  
+  getReviews(song: Song) {
+    let path = this.dbPath + '/' + song.key + '/reviews';
+    let songInfoRef = this.db.collection(path);
+    return songInfoRef;
+  }
+
   updateSong(key: string, value: any): Promise<void> {
     return this.songsRef.doc(key).update(value);
   }

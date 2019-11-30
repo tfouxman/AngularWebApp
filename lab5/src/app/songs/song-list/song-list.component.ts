@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SongService } from '../song.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { map } from 'rxjs/operators'
+import { SongInfoComponent } from '../song-info/song-info.component';
 
 @Component({
   selector: 'app-song-list',
@@ -11,7 +13,7 @@ export class SongListComponent implements OnInit {
 
   songs: any;
 
-  constructor(private songService: SongService) { }
+  constructor(private songService: SongService, private matDialog: MatDialog) { }
 
   ngOnInit() {
     this.getSongList();
@@ -29,6 +31,12 @@ export class SongListComponent implements OnInit {
 
   deleteSongs() {
     this.songService.deleteAll();
+  }
+
+  openDialog(song) {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig.data = song;
+    let dialogRef = this.matDialog.open(SongInfoComponent, dialogConfig);
   }
 
 }

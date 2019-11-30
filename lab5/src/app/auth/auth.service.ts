@@ -9,7 +9,7 @@ import {
 } from '@angular/fire/firestore';
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { switchMap, first } from 'rxjs/operators';
+import { switchMap, first, tap } from 'rxjs/operators';
 import { User } from './user';
 
 @Injectable({
@@ -18,6 +18,7 @@ import { User } from './user';
 export class AuthService {
 
   user$: Observable<User>;
+  display: string;
   newUser: any;
 
   private eventAuthError = new BehaviorSubject<string>("");
@@ -33,6 +34,7 @@ export class AuthService {
         switchMap(user => {
           if (user) {
             console.log(user.uid, user.email);
+            this.display = user.displayName;
             return this.afs.doc(`users/${user.uid}`).valueChanges();
           } else {
             return of(null);
@@ -43,7 +45,12 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return this.afAuth.authState.pipe(first());
+    this.afAuth.authState.pipe(first()).pipe(
+      tap(user => {
+        if (user) return true;
+        else return false;
+      }
+    ));
   }
 
   async googleSignin() {
@@ -100,8 +107,7 @@ export class AuthService {
 
       this.insertUserData(userCredential)
       .then(() => {
-        this.signOut();
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
       })
     })
     .catch( error => {
@@ -117,7 +123,6 @@ export class AuthService {
       role: 'authenticated user',
       displayName: this.newUser.firstName + ' ' + this.newUser.lastName,
         photoURL: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
-      password: this.newUser.password
     })
   }
 }

@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<mat-dialog-content>
+
+    <p class="font-weight-bold">{{ data.title }}</p>
+    <p class="font-weight-bold">{{ data.artist }}</p>
+    <p class="font-weight-bold">Album: {{ data.album }}</p>
+    <img class="image" src={{data.image}}>
+    <br>
+    <p class="upper">Released In: <a href="https://en.wikipedia.org/wiki/{{ data.year }}" target="">{{ data.year }}</a></p>
+    <br>
+    <p class="">{{ data.comment }}</p>
+    <br>
+    <p class="upper">Genre: {{ data.genre }}</p>
+    <br>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button btn btn-danger" (click)="close()">Close</button>
+    <div *ngIf="auth.user$ | async as user" class="ml-auto">
+        <button class="mat-raised-button btn btn-success ml-auto" (click)="openDialog()">Add Review</button>
+    </div>
+</mat-dialog-actions>

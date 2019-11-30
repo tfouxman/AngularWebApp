@@ -14,7 +14,7 @@ export class CreateSongComponent implements OnInit {
   song: Song = new Song();
   submitted = false;
  
-  constructor(private songServicce: SongService) { }
+  constructor(private songService: SongService) { }
  
   ngOnInit() {
   }
@@ -25,7 +25,7 @@ export class CreateSongComponent implements OnInit {
   }
  
   save() {
-    this.songServicce.createSong(this.song);
+    this.songService.createSong(this.song);
     this.song = new Song();
   }
  

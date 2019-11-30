@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SongInfoComponent } from './songs/song-info/song-info.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
@@ -19,6 +22,7 @@ import { AdminComponent } from './admin/admin/admin.component';
 import { MaterialModule } from './material/material.module';
 import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
+import { ReviewComponent } from './songs/review/review.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,8 @@ import { RegistrationComponent } from './auth/registration/registration.componen
     AdminComponent,
     LoginComponent,
     RegistrationComponent,
-    
+    SongInfoComponent,
+    ReviewComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -40,8 +45,11 @@ import { RegistrationComponent } from './auth/registration/registration.componen
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    MatDialogModule,
+    NgbModule
   ],
+  entryComponents: [SongInfoComponent, ReviewComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

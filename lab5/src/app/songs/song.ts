@@ -8,6 +8,6 @@ export class Song {
     comment: string;
     genre: string;
     reviews: number;
-    average: number;
+    total: number;
     hidden: boolean;
 }
