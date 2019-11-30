@@ -12,11 +12,13 @@ import { HomeComponent } from './home/home.component';
 import { SongDetailsComponent } from './songs/song-details/song-details.component';
 import { SongListComponent } from './songs/song-list/song-list.component';
 import { CreateSongComponent } from './songs/create-song/create-song.component';
-import { LoginFormComponent } from './users/login-form/login-form.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatInputModule, MatSliderModule, MatDialogModule } from '@angular/material';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AdminComponent } from './admin/admin/admin.component';
+import { MaterialModule } from './material/material.module';
+import { LoginComponent } from './auth/login/login.component';
+import { RegistrationComponent } from './auth/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,10 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     SongDetailsComponent,
     SongListComponent,
     CreateSongComponent,
-    LoginFormComponent
+    AdminComponent,
+    LoginComponent,
+    RegistrationComponent,
+    
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -34,6 +39,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

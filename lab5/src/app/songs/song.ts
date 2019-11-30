@@ -9,4 +9,5 @@ export class Song {
     genre: string;
     reviews: number;
     average: number;
+    hidden: boolean;
 }

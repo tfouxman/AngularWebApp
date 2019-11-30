@@ -1,0 +1,47 @@
+<div class="row mt-4">
+    <div class="col-12">
+        <h1>Login</h1>
+    </div>
+
+    <div class="col-12">
+        <div class="row" *ngIf="authError">
+            <div class="col-12 alert alert-danger">
+                {{ authError?.message }}
+            </div>
+        </div>
+        
+        <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+            <div class="row">
+            <div class="col-md-12 mb-2">
+                <label for="email">Email</label>
+                <input ngModel #email="ngModel" name="email" type="email" class="form-control" id="email">
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-12 mb-2">
+                <label for="password">Password</label>
+                <input ngModel #password="ngModel" name="password" type="password" class="form-control" id="password">
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-3 mb-2 ml-0">
+                <button class="btn btn-primary" type="button" (click)="auth.googleSignin()">Login With Google <span class="fa fa-google"></span></button>
+            </div>
+            <div class="col-md-8"></div>
+            <div class="col-md-1 mb-2">
+                <button class="btn btn-primary" type="submit">Login</button>
+            </div>
+            </div>
+        </form>
+
+        <div class="col-md-4 mb-2 ml-0 pl-0">
+            <a href="/register" class="btn btn-info" role="button">Don't have an account? Register here!</a>
+        </div>
+    </div>
+</div>
+    
+
+
+
+
+

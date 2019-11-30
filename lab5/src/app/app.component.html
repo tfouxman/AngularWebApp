@@ -7,8 +7,15 @@
         <li><a href="#" routerLink="/songs">Songs</a></li>
         <li><a href="#" routerLink="/create">New Song</a></li>
         <li><a href="#" routerLink="/details">Details</a></li>
-        <div class="login">
-          <li><a href="#" routerLink="/login">Log In</a></li>
+        <ng-template #login>
+            <div class="inline">
+              <li><a href="#" routerLink="/login">Log In</a></li>
+            </div>
+        </ng-template>
+        <div class="inline" *ngIf="auth.user$ | async as user; else login">
+          <li><img [src]="user.photoURL" alt=""></li>
+          <li>Welcome, <p style="display: inline-block" class="font-weight-bold">{{ user.displayName }}</p></li>
+          <li><a href='#' (click)="auth.signOut()">Sign Out</a></li>
         </div>
       </ul>
     </nav>

@@ -5,3 +5,15 @@
         background: darken(rgb(60, 1, 109), 10%);
     }
 }
+
+img {
+    border-radius: 50%;
+    width: 35px;
+    margin: 0 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.inline li{
+    display: inline-block;
+}
