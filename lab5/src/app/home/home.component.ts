@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,7 @@ export class HomeComponent implements OnInit {
   items: Array<any>;
 
   constructor(
+    private auth: AuthService,
     private router: Router
   ) { }
 

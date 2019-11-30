@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SongInfoComponent } from './songs/song-info/song-info.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthGuard } from './auth/auth.guard'
 
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
@@ -16,7 +17,7 @@ import { SongDetailsComponent } from './songs/song-details/song-details.componen
 import { SongListComponent } from './songs/song-list/song-list.component';
 import { CreateSongComponent } from './songs/create-song/create-song.component';
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AdminComponent } from './admin/admin/admin.component';
 import { MaterialModule } from './material/material.module';
@@ -50,7 +51,7 @@ import { ReviewComponent } from './songs/review/review.component';
     NgbModule
   ],
   entryComponents: [SongInfoComponent, ReviewComponent],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

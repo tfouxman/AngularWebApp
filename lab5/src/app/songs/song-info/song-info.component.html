@@ -14,6 +14,17 @@
     <p class="upper">Genre: {{ data.genre }}</p>
     <br>
 
+    <ul *ngIf="reviews" class="list-group" style="list-style-type: none;">
+        <p class="bold">Average Review: <span *ngIf="data.reviews; else noreviews">{{ data.total / data.reviews }}</span>
+            <ng-template #noreviews><span>This song does not have any reviews yet.</span></ng-template>
+        </p>
+        <li *ngFor="let review of reviews">
+            <p class="list-group-item font-weight-bold list-group-item-secondary mb-0">{{ review.title }} (Rating: {{ review.rating }})</p>
+            <p class="list-group-item list-group-item-info mt-0 mb-0">{{ review.body }}</p>
+            <p class="list-group-item list-group-item-warning mt-0">Submitted By: {{ review.submittedBy }}</p>
+        </li>
+    </ul>
+
 <mat-dialog-actions>
     <button class="mat-raised-button btn btn-danger" (click)="close()">Close</button>
     <div *ngIf="auth.user$ | async as user" class="ml-auto">

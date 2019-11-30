@@ -29,28 +29,21 @@ export class AuthService {
     private afs: AngularFirestore,
     private router: Router
   ) {
-    if (this.isLoggedIn) {
-      this.user$ = this.afAuth.authState.pipe(
-        switchMap(user => {
-          if (user) {
-            console.log(user.uid, user.email);
-            this.display = user.displayName;
-            return this.afs.doc(`users/${user.uid}`).valueChanges();
-          } else {
-            return of(null);
-          }
-        })
-      );
-    }
+    this.user$ = this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          console.log(user.uid, user.email);
+          this.display = user.displayName;
+          return this.afs.doc(`users/${user.uid}`).valueChanges();
+        } else {
+          return of(null);
+        }
+      })
+    );
   }
 
-  isLoggedIn() {
-    this.afAuth.authState.pipe(first()).pipe(
-      tap(user => {
-        if (user) return true;
-        else return false;
-      }
-    ));
+  get currentUserObservable(): any {
+    return this.afAuth.auth
   }
 
   async googleSignin() {
@@ -118,11 +111,12 @@ export class AuthService {
 
   insertUserData(userCredential: firebase.auth.UserCredential) {
     return this.afs.doc(`users/${userCredential.user.uid}`).set({
+      uid: userCredential.user.uid,
       email: this.newUser.email,
       active: true,
       role: 'authenticated user',
       displayName: this.newUser.firstName + ' ' + this.newUser.lastName,
-        photoURL: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+      photoURL: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
     })
   }
 }

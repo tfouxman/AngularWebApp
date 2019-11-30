@@ -6,14 +6,16 @@ import { SongListComponent } from './songs/song-list/song-list.component';
 import { CreateSongComponent } from './songs/create-song/create-song.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
+import { AuthGuard } from './auth/auth.guard';
+import { LoggedInAuthGuard } from './auth/logged-in-auth.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'details', component: SongDetailsComponent},
+  { path: 'details', component: SongDetailsComponent, canActivate: [AuthGuard]},
   { path: 'songs', component: SongListComponent},
-  { path: 'create', component: CreateSongComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegistrationComponent},
+  { path: 'create', component: CreateSongComponent, canActivate: [AuthGuard]},
+  { path: 'login', component: LoginComponent, canActivate: [LoggedInAuthGuard]},
+  { path: 'register', component: RegistrationComponent, canActivate: [LoggedInAuthGuard]},
   { path: '', redirectTo: '/home', pathMatch: 'full'}
 ];
 

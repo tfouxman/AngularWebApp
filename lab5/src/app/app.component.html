@@ -5,8 +5,8 @@
       <ul>
         <li><a href="#" routerLink="/">Home</a></li>
         <li><a href="#" routerLink="/songs">Songs</a></li>
-        <li><a href="#" routerLink="/create">New Song</a></li>
-        <li><a href="#" routerLink="/details">Details</a></li>
+        <li *ngIf="auth.user$ | async as user"><a href="#" routerLink="/create">New Song</a></li>
+        <li *ngIf="auth.user$ | async as user"><a href="#" routerLink="/details">Details</a></li>
         <ng-template #login>
             <div class="inline">
               <li><a href="#" routerLink="/login">Log In</a></li>

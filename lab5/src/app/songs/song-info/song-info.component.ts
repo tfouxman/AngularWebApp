@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { SongService } from '../song.service';
 import { ReviewComponent } from '../review/review.component';
 import { AuthService } from 'src/app/auth/auth.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-song-info',
@@ -12,9 +13,12 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class SongInfoComponent implements OnInit {
 
+  reviews: any;
+
   constructor(public infoRef: MatDialogRef<SongInfoComponent>, private matDialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, private songService: SongService, private auth: AuthService) { }
 
   ngOnInit() {
+    this.getReviewList();
   }
 
   close() {
@@ -25,5 +29,15 @@ export class SongInfoComponent implements OnInit {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.data = this.data;
     let dialogRef = this.matDialog.open(ReviewComponent, dialogConfig);
+  }
+
+  getReviewList() {
+    this.songService.getReviews(this.data).snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c =>
+          ({ key: c.payload.doc.id, ...c.payload.doc.data() })))
+    ).subscribe(reviews => {
+      this.reviews = reviews;
+    })
   }
 }

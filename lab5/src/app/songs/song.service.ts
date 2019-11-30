@@ -18,6 +18,7 @@ export class SongService {
   }
 
   createSong(song: Song): void {
+    song.hidden = false;
     this.songsRef.add({...song});
   }
 
@@ -26,10 +27,11 @@ export class SongService {
     this.reviewsRef = this.db.collection(path);
     this.reviewsRef.add({...review});
     let songUpdate = {
-      reviews: song.reviews++,
-      total: song.total + review.rating
+      reviews: (song.reviews + 1),
+      total: (song.total + review.rating)
     };
     this.updateSong(song.key, songUpdate);
+    this.getReviews(song);
   }
  
   getReviews(song: Song) {
