@@ -5,7 +5,8 @@ import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
-  AngularFirestoreDocument
+  AngularFirestoreDocument,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
@@ -17,9 +18,12 @@ import { User } from './user';
 })
 export class AuthService {
 
+  private dbPath = '/users';
   user$: Observable<User>;
+  user: User;
   display: string;
   newUser: any;
+  usersRef: AngularFirestoreCollection<User> = null;
 
   private eventAuthError = new BehaviorSubject<string>("");
   eventAuthError$ = this.eventAuthError.asObservable();
@@ -42,8 +46,9 @@ export class AuthService {
     );
   }
 
-  get currentUserObservable(): any {
-    return this.afAuth.auth
+  getUsers() {
+    this.usersRef = this.afs.collection(this.dbPath);
+    return this.usersRef;
   }
 
   async googleSignin() {
@@ -60,8 +65,20 @@ export class AuthService {
         this.eventAuthError.next(error);
       })
       .then(userCredentials => {
+        console.log(userCredentials);
         if(userCredentials) {
-          this.router.navigate(['/home']);
+          this.afs.doc(`users/${userCredentials.user.uid}`).ref.get().then((doc) => {
+            let data = doc.data();
+            if (data.active) this.router.navigate(['/home']);
+            else {
+              this.afAuth.auth.signOut().then(nav => {
+                this.router.navigate(['/contact']);
+              }       
+              );
+              
+            }
+          })
+          
         }
       })
   }
@@ -71,19 +88,27 @@ export class AuthService {
     return this.router.navigate(['/home']);
   }
 
-  private updateUserData(user) {
+  async updateUserData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-
-    const data = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      role: 'authenticated user',
-      active: true
-    }
-
+    let data: any;
+    await userRef.ref.get().then((doc) => {
+      if (doc.exists) {
+        data = doc.data();
+      }
+      else {
+        data = {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          role: 'authenticated user',
+          active: true,
+          emailVerified: user.emailVerified
+        }
+      }
+    })
+    console.log(data);
     return userRef.set(data, { merge: true });
 
   }
@@ -109,6 +134,11 @@ export class AuthService {
     })
   }
 
+  toggleActive(user: User) {
+    user.active = !user.active;
+    this.updateUserData(user);
+  }
+
   insertUserData(userCredential: firebase.auth.UserCredential) {
     return this.afs.doc(`users/${userCredential.user.uid}`).set({
       uid: userCredential.user.uid,
@@ -117,6 +147,7 @@ export class AuthService {
       role: 'authenticated user',
       displayName: this.newUser.firstName + ' ' + this.newUser.lastName,
       photoURL: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+      emailVerified: false
     })
   }
 }

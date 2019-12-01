@@ -64,4 +64,10 @@ export class SongService {
       });
   }
 
+  updateHidden(song: Song) {
+    return this.songsRef.doc(song.key).update({
+      hidden: !song.hidden
+    });
+  }
+
 }

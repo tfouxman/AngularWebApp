@@ -1,31 +1,14 @@
-<p>works</p>
-<div *ngIf="song">
-    <div>
-      <label>Title: </label> {{song.name}}
-    </div>
-    <div>
-      <label>Artist: </label> {{song.age}}
-    </div>
-    <div>
-      <label>Album: </label> {{song.active}}
-    </div>
-    <div>
-      <label>Year: </label> {{song.active}}
-    </div>
-    <div>
-      <label>Comment: </label> {{song.active}}
-    </div>
-    <div>
-      <label>Genre: </label> {{song.active}}
-    </div>
-    <div>
-        <label>Reviews: </label>
-        <label>View All </label>
-    </div>
-    
-   
-    <span class="button is-small btn-primary">Review</span>   
-    <span class="button is-small btn-danger" (click)='deleteSong()'>Delete</span>
-   
-    <hr />
-</div>
+<h1>Songs</h1>
+
+<ul *ngIf="songs">
+    <li *ngFor="let song of songs">
+        <p class="bold">{{ song.title }}</p>
+        <p class="bold">{{ song.artist }}</p>
+        <p class="bold">{{ song.album }}</p>
+        <img class="image" src={{song.image}}>
+        <br>
+        <p>Genre: {{ song.genre }} </p>
+        <p>Currently <span *ngIf="song.hidden; else nothidden" class="bg-danger">hidden</span><ng-template #nothidden><span class="bg-success">not hidden</span></ng-template></p>
+        <button class="btn btn-info" type="button" (click)='toggleHidden(song)'>Toggle Hidden</button>
+    </li>
+</ul>

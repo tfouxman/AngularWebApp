@@ -12,9 +12,10 @@ export class HomeComponent implements OnInit {
   items: Array<any>;
 
   constructor(
-    private auth: AuthService,
-    private router: Router
-  ) { }
+    public auth: AuthService,
+  ) {
+    console.log(auth.user$);
+   }
 
   ngOnInit() {
   }

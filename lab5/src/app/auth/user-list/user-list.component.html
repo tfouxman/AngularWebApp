@@ -1,0 +1,15 @@
+<h1>Users</h1>
+
+<ul *ngIf="users">
+    <li *ngFor="let user of users">
+        <p class="bold">{{ user.displayName }}</p>
+        <p class="bold">{{ user.email }}</p>
+        <p class="bold">{{ user.role }}</p>
+        <img class="image" src={{user.photoURL}}>
+        <br>
+        <p>Email Verified: <span [ngClass]="{'bg-success': user.emailVerified, 'bg-danger': !user.emailVerified}">{{ user.emailVerified }}</span> </p>
+        <br>
+        <p>Currently <span *ngIf="user.active; else notactive" class="bg-success">active</span><ng-template #notactive><span class="bg-danger">not active</span></ng-template></p>
+        <button class="btn btn-info" type="button" (click)='toggleActive(user)'>Toggle Active</button>
+    </li>
+</ul>

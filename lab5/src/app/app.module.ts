@@ -4,7 +4,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SongInfoComponent } from './songs/song-info/song-info.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthGuard } from './auth/auth.guard'
+import { AuthGuard } from './auth/auth.guard';
+import { LoggedInAuthGuard } from './auth/logged-in-auth.guard';
+import { AdminAuthGuard } from './auth/admin-auth.guard'
 
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
@@ -19,11 +21,12 @@ import { CreateSongComponent } from './songs/create-song/create-song.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AdminComponent } from './admin/admin/admin.component';
 import { MaterialModule } from './material/material.module';
 import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { ReviewComponent } from './songs/review/review.component';
+import { UserListComponent } from './auth/user-list/user-list.component';
+import { ContactComponent } from './admin/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -32,11 +35,12 @@ import { ReviewComponent } from './songs/review/review.component';
     SongDetailsComponent,
     SongListComponent,
     CreateSongComponent,
-    AdminComponent,
     LoginComponent,
     RegistrationComponent,
     SongInfoComponent,
-    ReviewComponent
+    ReviewComponent,
+    UserListComponent,
+    ContactComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -51,7 +55,7 @@ import { ReviewComponent } from './songs/review/review.component';
     NgbModule
   ],
   entryComponents: [SongInfoComponent, ReviewComponent],
-  providers: [AuthGuard],
+  providers: [AuthGuard, LoggedInAuthGuard, AdminAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

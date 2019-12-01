@@ -1,13 +1,15 @@
 <h1>Songs</h1>
 
 <ul *ngIf="songs">
-    <li *ngFor="let song of songs">
-        <p class="bold">{{ song.title }}</p>
-        <p class="bold">{{ song.artist }}</p>
-        <p class="bold">{{ song.album }}</p>
-        <img class="image" src={{song.image}}>
-        <br>
-        <p>Genre: {{ song.genre }} </p>
-        <button class="btn btn-info" type="button" (click)='openDialog(song)'>View Info</button>
-    </li>
+    <ng-container *ngFor="let song of songs">
+        <li *ngIf="!song.hidden">
+            <p class="bold">{{ song.title }}</p>
+            <p class="bold">{{ song.artist }}</p>
+            <p class="bold">{{ song.album }}</p>
+            <img class="image" src={{song.image}}>
+            <br>
+            <p>Genre: {{ song.genre }} </p>
+            <button class="btn btn-info" type="button" (click)='openDialog(song)'>View Info</button>
+        </li>
+    </ng-container>
 </ul>
