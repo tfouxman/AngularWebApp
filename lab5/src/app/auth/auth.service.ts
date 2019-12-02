@@ -144,8 +144,10 @@ export class AuthService {
       console.log(error);
       this.eventAuthError.next(error);
     })
+    this.signOut();
   }
 
+  //Send a verification email
   SendVerificationEmail() {
     return this.afAuth.auth.currentUser.sendEmailVerification()
     .then(() => {
