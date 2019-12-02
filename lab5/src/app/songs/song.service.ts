@@ -19,6 +19,8 @@ export class SongService {
 
   createSong(song: Song): void {
     song.hidden = false;
+    song.reviews = 0;
+    song.total = 0;
     this.songsRef.add({...song});
   }
 

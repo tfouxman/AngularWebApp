@@ -19,14 +19,21 @@ export class SongListComponent implements OnInit {
     this.getSongList();
   }
 
-  getSongList() {
+  async getSongList() {
     this.songService.getSongsList().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
           ({ key: c.payload.doc.id, ...c.payload.doc.data() })))
     ).subscribe(songs => {
       this.songs = songs;
+      this.orderSongs();
     })
+  }
+
+  orderSongs() {
+    console.log(this.songs);
+    this.songs.sort((a,b) => b.reviews - a.reviews);
+    console.log(this.songs);
   }
 
   deleteSongs() {
