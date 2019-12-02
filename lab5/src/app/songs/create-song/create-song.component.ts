@@ -13,6 +13,9 @@ export class CreateSongComponent implements OnInit {
  
   song: Song = new Song();
   submitted = false;
+
+  titleError: any;
+  artistError: any;
  
   constructor(private songService: SongService) { }
  
@@ -30,8 +33,20 @@ export class CreateSongComponent implements OnInit {
   }
  
   onSubmit() {
-    this.submitted = true;
-    this.save();
+    this.artistError = null;
+    this.titleError = null;
+    if (!!this.song.artist && !!this.song.title) {
+      this.submitted = true;
+      this.save();
+    }
+    else {
+      if (!this.song.artist) {
+        this.artistError = "No artist given!";
+      }
+      if (!this.song.title) {
+        this.titleError = "No title given!";
+      }
+    }
   }
  
 }

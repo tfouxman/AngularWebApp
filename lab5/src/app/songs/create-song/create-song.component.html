@@ -2,15 +2,27 @@
 <div [hidden]="submitted" style="width: 100%;">
   <form #songForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="play-container">
+        <div class="row" *ngIf="titleError">
+            <div class="col-12 alert alert-danger">
+                {{ titleError }}
+            </div>
+        </div>
+
+        <div class="row" *ngIf="artistError">
+            <div class="col-12 alert alert-danger">
+                {{ artistError }}
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-6 mb-2">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" id="title" required [(ngModel)]="song.title" name="title">
+                <input type="text" class="form-control" id="title" required minlength="1" [(ngModel)]="song.title" name="title">
             </div>
         
             <div class="col-md-6 mb-2">
                 <label for="artist">Artist</label>
-                <input type="text" class="form-control" id="artist" required [(ngModel)]="song.artist" name="artist">
+                <input type="text" class="form-control" id="artist" required minlength="1" [(ngModel)]="song.artist" name="artist">
             </div>
         </div>
 
