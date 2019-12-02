@@ -25,7 +25,7 @@ import { MaterialModule } from './material/material.module';
 import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { ReviewComponent } from './songs/review/review.component';
-import { UserListComponent } from './auth/user-list/user-list.component';
+import { UserListComponent } from './admin/user-list/user-list.component';
 import { ContactComponent } from './admin/contact/contact.component';
 
 @NgModule({

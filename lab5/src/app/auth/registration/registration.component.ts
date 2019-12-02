@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  authError: any;
+  authError: any; //Store any auth errors
 
   constructor(private auth: AuthService) { }
 
@@ -18,6 +18,7 @@ export class RegistrationComponent implements OnInit {
     })
   }
 
+  //Create the user from the form information
   createUser(form) {
     this.auth.createUser(form.value);
   }

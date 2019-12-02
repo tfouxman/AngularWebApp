@@ -15,6 +15,7 @@ export class AdminAuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      //Guard to redirect non-admin users
       if (this.user) { 
         if (this.user.role == "admin") return true;
       }

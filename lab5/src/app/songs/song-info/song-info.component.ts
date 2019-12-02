@@ -21,16 +21,19 @@ export class SongInfoComponent implements OnInit {
     this.getReviewList();
   }
 
+  //Function to close the MatDialog opened for the song's information
   close() {
     this.infoRef.close();
   }
 
+  //Function to open the MatDialog for a specific song
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.data = this.data;
     let dialogRef = this.matDialog.open(ReviewComponent, dialogConfig);
   }
 
+  //Function to retrieve all reviews for a song
   getReviewList() {
     this.songService.getReviews(this.data).snapshotChanges().pipe(
       map(changes =>

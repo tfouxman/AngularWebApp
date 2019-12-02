@@ -9,7 +9,7 @@ import { RegistrationComponent } from './auth/registration/registration.componen
 import { AuthGuard } from './auth/auth.guard';
 import { LoggedInAuthGuard } from './auth/logged-in-auth.guard';
 import { AdminAuthGuard } from './auth/admin-auth.guard';
-import { UserListComponent } from './auth/user-list/user-list.component';
+import { UserListComponent } from './admin/user-list/user-list.component';
 import { ContactComponent } from './admin/contact/contact.component';
 
 const routes: Routes = [

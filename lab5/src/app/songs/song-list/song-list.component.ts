@@ -19,7 +19,8 @@ export class SongListComponent implements OnInit {
     this.getSongList();
   }
 
-  async getSongList() {
+  //Retrieve all songs and sort them based on amount of reviews
+  getSongList() { 
     this.songService.getSongsList().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
@@ -30,16 +31,17 @@ export class SongListComponent implements OnInit {
     })
   }
 
+  //Order songs based on amount of reviews
   orderSongs() {
-    console.log(this.songs);
     this.songs.sort((a,b) => b.reviews - a.reviews);
-    console.log(this.songs);
   }
 
+  //Delete all songs in database
   deleteSongs() {
     this.songService.deleteAll();
   }
 
+  //Function to open the ModalDialog component to view more information about the song
   openDialog(song) {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.data = song;

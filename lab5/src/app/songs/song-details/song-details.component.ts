@@ -21,6 +21,7 @@ export class SongDetailsComponent implements OnInit {
     this.getSongList();
   }
 
+  //Function to retrieve all songs, identical to that of in song-list
   getSongList() {
     this.songService.getSongsList().snapshotChanges().pipe(
       map(changes =>
@@ -31,16 +32,19 @@ export class SongDetailsComponent implements OnInit {
     })
   }
 
+  //Function to delete all songs
   deleteSongs() {
     this.songService.deleteAll();
   }
 
+  //Function to delete a song
   deleteSong() {
     this.songService
     .deleteSong(this.songs.key)
     .catch(err => console.log(err));
   }
 
+  //Function to toggle the hidden attribute of a song
   toggleHidden(song) {
     this.songService.updateHidden(song);
   }

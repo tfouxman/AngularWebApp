@@ -22,16 +22,20 @@ export class CreateSongComponent implements OnInit {
   ngOnInit() {
   }
  
+  //Function to reset song variable and reset submitted variable which will reactivate the form
   newSong(): void {
     this.submitted = false;
     this.song = new Song();
   }
  
+  //Function to add the song with attributes from the form to the database
   save() {
     this.songService.createSong(this.song);
     this.song = new Song();
   }
  
+  //Function to validate that an artist and a title have been entered and submit if valid
+  //Also sets error messages and resets them as necessary
   onSubmit() {
     this.artistError = null;
     this.titleError = null;

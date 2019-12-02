@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -19,6 +19,7 @@ export class UserListComponent implements OnInit {
     this.getUserList();
   }
 
+  //Function to retrieve all users
   getUserList() {
     this.auth.getUsers().snapshotChanges().pipe(
       map(changes =>
@@ -29,6 +30,7 @@ export class UserListComponent implements OnInit {
     })
   }
 
+  //Function to toggle disable/enable user
   toggleActive(user) {
     this.auth.toggleActive(user);
   }

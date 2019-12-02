@@ -19,20 +19,21 @@ import { User } from './user';
 export class AuthService {
 
   private dbPath = '/users';
-  user$: Observable<User>;
-  user: User;
-  display: string;
-  newUser: any;
-  usersRef: AngularFirestoreCollection<User> = null;
+  user$: Observable<User>; //Observable variable to hold an observable of user information from database
+  user: User; //Variable that holds a User model
+  display: string; //Variable to store the display name of the current user
+  newUser: any; //Variable to store temporary information for a new user registering
+  usersRef: AngularFirestoreCollection<User> = null; //Reference for users as an AngularFirestoreCollection of User models
 
-  private eventAuthError = new BehaviorSubject<string>("");
-  eventAuthError$ = this.eventAuthError.asObservable();
+  private eventAuthError = new BehaviorSubject<string>(""); //Holds auth error messages
+  eventAuthError$ = this.eventAuthError.asObservable(); //Observable variable that holds auth error messages
 
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router
   ) {
+    //Set the observable user to a valueChanges observable of a specific user using the uid
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -46,12 +47,13 @@ export class AuthService {
     );
   }
 
-  getUsers() {
+  getUsers() { //Retrieve all users in database (for admin)
     this.usersRef = this.afs.collection(this.dbPath);
     return this.usersRef;
   }
 
-  async googleSignin() {
+  //Async function to launch Google's sign in pop-up and then update user credentials in database
+  async googleSignin() { 
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider);
     return this.updateUserData(credential.user).then(() => {
@@ -59,6 +61,7 @@ export class AuthService {
     });
   }
 
+  //Async function to login with Firebase auth and check if account is currently active, if not redirect to contact page
   async login(email: string, password: string) {
     await this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .catch(error => {
@@ -83,11 +86,13 @@ export class AuthService {
       })
   }
 
+  //Function to sign out of Firebase
   async signOut() {
     await this.afAuth.auth.signOut();
     return this.router.navigate(['/home']);
   }
 
+  //Function to update user information, depending on if it is a new user or not
   async updateUserData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
@@ -113,6 +118,7 @@ export class AuthService {
 
   }
 
+  //Function to create a new user in Firebase with an Email and a Password and log them in
   async createUser(user) {
     await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
     .then( userCredential => {
@@ -134,11 +140,13 @@ export class AuthService {
     })
   }
 
+  //Function to toggle user enable/disable
   toggleActive(user: User) {
     user.active = !user.active;
     this.updateUserData(user);
   }
 
+  //Function to insert user information (used for new users to set the role and photoURL)
   insertUserData(userCredential: firebase.auth.UserCredential) {
     return this.afs.doc(`users/${userCredential.user.uid}`).set({
       uid: userCredential.user.uid,
