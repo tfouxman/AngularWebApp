@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore'
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore'
 import { Song } from './song';
 import { Review } from './review';
 
@@ -22,12 +22,17 @@ export class SongService {
 
 
   //Create song in database using the Song model and set initial values that are not retrieved from form
-  createSong(song: Song): void {
+  async createSong(song: Song)  {
     song.hidden = false;
     song.reviews = 0;
     song.total = 0;
-    this.songsRef.add({...song});
+    return this.songsRef.add({...song});
   }
+
+  getSong(key: string): AngularFirestoreDocument {
+    return this.db.doc(this.dbPath + '/' + key);
+  }
+
 
   //Add a review to a specific song and update the properties of the song that represent reviews
   addReview(song: Song, review: Review) {

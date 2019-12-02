@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
  
 import { Song } from '../song';
 import { SongService } from '../song.service';
+import { Review } from '../review';
  
 @Component({
   selector: 'app-create-song',
@@ -12,7 +13,10 @@ import { SongService } from '../song.service';
 export class CreateSongComponent implements OnInit {
  
   song: Song = new Song();
+  review: Review = new Review();
   submitted = false;
+  currentRate = 5;
+  temp: any;
 
   titleError: any;
   artistError: any;
@@ -29,8 +33,17 @@ export class CreateSongComponent implements OnInit {
   }
  
   //Function to add the song with attributes from the form to the database
-  save() {
-    this.songService.createSong(this.song);
+  async save() {
+    await this.songService.createSong(this.song).then(doc => {
+      this.temp = doc;
+    });
+    console.log(this.temp.id);
+    this.song.key = this.temp.id;
+    if(!!this.review.title || !!this.review.body) {
+      this.review.rating = this.currentRate;
+      this.songService.addReview(this.song, this.review);
+    }
+    this.review = new Review();
     this.song = new Song();
   }
  
