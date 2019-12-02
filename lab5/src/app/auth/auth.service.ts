@@ -70,18 +70,23 @@ export class AuthService {
       .then(userCredentials => {
         console.log(userCredentials);
         if(userCredentials) {
-          this.afs.doc(`users/${userCredentials.user.uid}`).ref.get().then((doc) => {
-            let data = doc.data();
-            if (data.active) this.router.navigate(['/home']);
-            else {
-              this.afAuth.auth.signOut().then(nav => {
-                this.router.navigate(['/contact']);
-              }       
-              );
-              
-            }
-          })
-          
+          if (!userCredentials.user.emailVerified) {
+            this.SendVerificationEmail();
+            this.signOut();
+          }
+          else {
+            this.afs.doc(`users/${userCredentials.user.uid}`).ref.get().then((doc) => {
+              let data = doc.data();
+              if (data.active) this.router.navigate(['/home']);
+              else {
+                this.afAuth.auth.signOut().then(nav => {
+                  this.router.navigate(['/contact']);
+                }       
+                );
+                
+              }
+            })
+          }          
         }
       })
   }
@@ -122,6 +127,7 @@ export class AuthService {
   async createUser(user) {
     await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
     .then( userCredential => {
+      this.SendVerificationEmail();
       this.newUser = user;
       console.log(userCredential);
       userCredential.user.updateProfile( {
@@ -137,6 +143,13 @@ export class AuthService {
     .catch( error => {
       console.log(error);
       this.eventAuthError.next(error);
+    })
+  }
+
+  SendVerificationEmail() {
+    return this.afAuth.auth.currentUser.sendEmailVerification()
+    .then(() => {
+      this.router.navigate(['/login']);
     })
   }
 
